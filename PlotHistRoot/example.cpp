@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////////////////////////////
-// Draft script to plot a ROOT hist and ratio hist in a same canvas
+// Draft script to plot a ROOT hist and ratio hist in the same canvas
 // M. Ascencio-Sosa, Aug 14, 2024
 
 #include <iostream>
@@ -26,12 +26,6 @@ TH1D* get_hist(TFile *f, std::string variable){
     return h;
 }
 
-TH1D* get_ratio(TH1D* h1, TH1D* h2){
-	TH1D* ratio = (TH1D*)h1->Clone();
-	ratio->Divide(h2);
-	return ratio;
-}
-
 void plotHistogramsWithRatio(TH1D* h1, TH1D* h2, std::string vr_n, std::string vr_l1, std::string vr_l2) {
 
     gStyle->SetOptStat(0);
@@ -50,21 +44,21 @@ void plotHistogramsWithRatio(TH1D* h1, TH1D* h2, std::string vr_n, std::string v
     
     double maxY = TMath::Max(maxY1, maxY2) * 1.2; 
     h1->GetYaxis()->SetRangeUser(0, maxY);
-    h1->GetXaxis()->SetTitle(vr_n.c_str());
-    h1->GetYaxis()->SetTitle("Entries");
-
-    auto legend = new TLegend(0.5, 0.6, 0.9, 0.8); 
-    legend->AddEntry(h1, vr_l1.c_str(), "l"); 
-    legend->AddEntry(h2, vr_l2.c_str(), "l");
-    legend->SetBorderSize(0); 
-    legend->SetFillStyle(0); 
-    legend->Draw(); 
 
     auto rp = new TRatioPlot(h1, h2);
     rp->SetH1DrawOpt("hist");
     rp->SetH2DrawOpt("hist same");
-    rp->Draw("hist");
-    legend->Draw("same");
+    rp->Draw();
+    rp->GetLowerRefYaxis()->SetTitle("ratio");
+    rp->GetUpperRefYaxis()->SetTitle("entries");
+
+    rp->GetUpperPad()->cd();
+    TLegend *legend = new TLegend(0.3,0.7,0.7,0.85);
+    legend->AddEntry(h1, vr_l1.c_str(), "l"); 
+    legend->AddEntry(h2, vr_l2.c_str(), "l");
+    legend->SetBorderSize(0); 
+    legend->SetFillStyle(0); 
+    legend->Draw();
 
     c1->Update();
     std::string out = vr_n + "_rt.pdf";
@@ -94,7 +88,6 @@ int main(int argc, char *argv[]) {
 
     TH1D* h1 = get_hist(get_file(pth_01.c_str()), vr.c_str());
     TH1D* h2 = get_hist(get_file(pth_02.c_str()), vr.c_str());
-    TH1D* ratio = get_ratio(h1, h2);
 
     plotHistogramsWithRatio(h1,h2,vr,vr_l1,vr_l2);
 
