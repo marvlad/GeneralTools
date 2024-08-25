@@ -69,13 +69,6 @@ void plotHistogramsWithRatio(TH1D* h1, TH1D* h2, std::string vr_n, std::string v
     c1->SaveAs(out.c_str()); 
 } 
 
-void plot_hist(TH1D*h){
-    TCanvas *c = new TCanvas("c", "c", 100, 80);
-    c->cd();
-    h->Draw("hist");
-    c->SaveAs("ratio.pdf");
-}
-
 int main(int argc, char *argv[]) {
     if (argc < 2) {
         std::cerr << "Hey! Usage: " << argv[0] << " <string1> [string2] ..." << std::endl;
