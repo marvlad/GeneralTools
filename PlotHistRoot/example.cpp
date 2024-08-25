@@ -52,6 +52,10 @@ void plotHistogramsWithRatio(TH1D* h1, TH1D* h2, std::string vr_n, std::string v
     rp->GetLowerRefYaxis()->SetTitle("ratio");
     rp->GetUpperRefYaxis()->SetTitle("entries");
 
+    rp->GetLowerRefGraph()->GetYaxis()->SetRangeUser(0, 2);    
+    Double_t gridlines[1] = {1.0};
+    rp->SetGridlines(gridlines,1);
+
     rp->GetUpperPad()->cd();
     TLegend *legend = new TLegend(0.3,0.7,0.7,0.85);
     legend->AddEntry(h1, vr_l1.c_str(), "l"); 
