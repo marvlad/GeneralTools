@@ -23,8 +23,7 @@ else:
     print("Files do not have the same keys. Ending the run.")
     exit()
      
-object_names = file1.keys()
-histogram_names = [name.split(";")[0] for name in object_names if file1.classnames()[name] == "TH1D"]
+histogram_names = [name.split(";")[0] for name in file1.keys() if file1.classnames()[name] == "TH1D"]
 
 def plot_me(hist_name):
     
