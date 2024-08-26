@@ -5,8 +5,12 @@ import uproot
 import matplotlib.pyplot as plt
 import numpy as np
 
+# global vars
 file1_path = 'A.root'
 file2_path = 'B.root'
+
+hist1_n = 'noOpalVarND_fhc_nocut'
+hist2_n = 'wOpalVarND_fhc_nocut'
 
 file1 = uproot.open(file1_path)
 file2 = uproot.open(file2_path)
@@ -23,9 +27,7 @@ object_names = file1.keys()
 histogram_names = [name.split(";")[0] for name in object_names if file1.classnames()[name] == "TH1D"]
 
 def plot_me(hist_name):
-    hist1_n = 'noOpalVarND_fhc_nocut'
-    hist2_n = 'wOpalVarND_fhc_nocut'
-
+    
     hist1 = file1[hist_name]
     hist2 = file2[hist_name]
 
