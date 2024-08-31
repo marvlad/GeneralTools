@@ -1,6 +1,5 @@
 How to compile?
 
-Terminal 1:
 ```javascript
 mkdir build
 
